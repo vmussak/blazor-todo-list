@@ -1,0 +1,31 @@
+﻿@page "/lista-de-tarefas"
+
+<h1>Lista de tarefas (@tarefas.Where(tarefa => !tarefa.Completa).Count())</h1>
+
+<ul>
+    @foreach(var tarefa in tarefas)
+    {
+        
+        <li>
+            <input type="checkbox" @bind(tarefa.Completa) />
+            <input type="text" @bind(tarefa.Titulo) />
+        </li>
+    }
+</ul>
+
+<input placeholder="Alguma coisa para fazer..." @bind(novaTarefa) />
+<button @onclick(AdicionarTarefa)>Adicionar tarefa</button>
+
+@functions {
+    IList<TarefaModel> tarefas = new List<TarefaModel>();
+    string novaTarefa;
+
+    void AdicionarTarefa()
+    {
+        if(!string.IsNullOrWhiteSpace(novaTarefa))
+        {
+            tarefas.Add(new TarefaModel { Titulo = novaTarefa });
+            novaTarefa = string.Empty;
+        }
+    }
+}
